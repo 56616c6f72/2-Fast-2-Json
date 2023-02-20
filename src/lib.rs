@@ -1,8 +1,6 @@
 use std::error::Error;
 use csv::ReaderBuilder;
-//use std::{thread, time::Duration};
 use serde_json::{Map, Value};
-// use std::str::from_utf8;
 
 pub struct Config {
     pub file_path: String
@@ -18,17 +16,18 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     // Cloning headers so I can access later. Probably this is not the best way of doing this. Reference is not implemented for iterators...
     let header = rdr.headers()?.clone();
     let mut json_map = Map::new();
+    let mut header_index = 0;
 
     rdr.records().for_each(|line|{
-        let mut header_index = 0;
+        
         for value in line
             .expect("Didn't get ByteRecord for a line.")
             .iter(){
             json_map.insert(header.get(header_index).unwrap().to_string(), Value::String(value.to_string()));
             header_index +=1;
         }
+        header_index = 0;
         println!("{}", serde_json::to_string(&json_map).unwrap());
-      //  thread::sleep(Duration::from_millis(2000));
     });
 
     Ok(())
