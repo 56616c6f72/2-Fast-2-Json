@@ -17,7 +17,8 @@ fn main() {
     }
     eprintln!("Elapsed: {} ms", get_elapsed_time(start_time));
 }
+
 fn get_elapsed_time(start_time: Instant) -> String {
     let x = start_time.elapsed();
-    ((x.as_secs() * 1_000) + (x.subsec_nanos() / 1_000_000) as u64).to_string()
+    ((x.as_secs() * 1_000) + (x.subsec_millis()) as u64).to_string()
 }

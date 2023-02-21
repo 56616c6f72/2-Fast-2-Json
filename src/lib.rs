@@ -1,35 +1,44 @@
-use std::error::Error;
+use std::{error::Error, io::{BufWriter, Write}};
 use csv::ReaderBuilder;
-use serde_json::{Map, Value};
-
+use serde_json::Map;
+use std::fs::OpenOptions;
 pub struct Config {
     pub file_path: String
 }
 
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
-   // let contents = fs::read_to_string(config.file_path)?;
-    let mut rdr = ReaderBuilder::new()
+
+    let rdr = ReaderBuilder::new()
         .flexible(true)
+        .has_headers(false)
         .from_path(config.file_path)?;
 
-    // Cloning headers so I can access later. Probably this is not the best way of doing this. Reference is not implemented for iterators...
-    let header = rdr.headers()?.clone();
+    let file = OpenOptions::new()
+        .create(true)
+        .write(true)
+        .truncate(true)
+        .open("../twojson-file.json")?;
+
+    let mut file_buffer = BufWriter::with_capacity(26214400,file);
+  
+
+    let mut it = rdr.into_records();
+    let headers = it.next().unwrap().unwrap();
     let mut json_map = Map::new();
-    let mut header_index = 0;
 
-    rdr.records().for_each(|line|{
+
+    for line in it {
         
-        for value in line
-            .expect("Didn't get ByteRecord for a line.")
-            .iter(){
-            json_map.insert(header.get(header_index).unwrap().to_string(), Value::String(value.to_string()));
-            header_index +=1;
-        }
-        header_index = 0;
-        println!("{}", serde_json::to_string(&json_map).unwrap());
-    });
+        for (i, value)in line.unwrap().iter().enumerate(){
+               // println!("{:?}", value);
+                json_map.insert(headers.get(i).unwrap().to_string(), serde_json::from_str(value).unwrap_or_else(|_|value.into()));
+            }
+        
+        writeln!(file_buffer,"{}", serde_json::to_string(&json_map).unwrap()).expect("Buffer store no good.");
+    };
 
+    file_buffer.flush().expect("buffer write no good.");
     Ok(())
 }
 
