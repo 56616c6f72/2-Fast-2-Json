@@ -2,23 +2,21 @@ use std::{error::Error, io::{BufWriter, Write}};
 use csv::ReaderBuilder;
 use serde_json::Map;
 use std::fs::OpenOptions;
-pub struct Config {
-    pub file_path: String
-}
 
 
-pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+pub fn run(sfile: String,ofile: String,deli: String) -> Result<(), Box<dyn Error>> {
 
     let rdr = ReaderBuilder::new()
         .flexible(true)
         .has_headers(false)
-        .from_path(config.file_path)?;
+        .delimiter(deli.as_bytes()[0])
+        .from_path(sfile)?;
 
     let file = OpenOptions::new()
         .create(true)
         .write(true)
         .truncate(true)
-        .open("../twojson-file.json")?;
+        .open(ofile)?;
 
     let mut file_buffer = BufWriter::with_capacity(26214400,file);
   
@@ -45,19 +43,3 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     file_buffer.flush().expect("buffer write no good.");
     Ok(())
 }
-
-impl Config{
-    pub fn build(mut args: impl Iterator<Item= String>) -> Result<Config, &'static str> {
-        args.next();
-    
-        let file_path = match args.next(){
-            Some(arg) => arg,
-            None => return Err("Didn't get a file path"),
-        };
-
-        Ok(Config {  
-            file_path 
-        })
-    }
-}
-

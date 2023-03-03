@@ -1,17 +1,37 @@
-use std::{process, env};
-use twojson::Config;
+use std::process;
 use std::time::Instant;
+use clap::Parser;
+
+#[derive(Parser)]
+#[command(name = "2 Fast 2 Json")]
+#[command(version = "1.0")]
+#[command(about = r"
+██████╗ ███████╗ █████╗  ██████╗████████╗  ██████╗      ██╗ ██████╗ █████╗ ███╗  ██╗
+╚════██╗██╔════╝██╔══██╗██╔════╝╚══██╔══╝  ╚════██╗     ██║██╔════╝██╔══██╗████╗ ██║
+  ███╔═╝█████╗  ███████║╚█████╗    ██║       ███╔═╝     ██║╚█████╗ ██║  ██║██╔██╗██║
+██╔══╝  ██╔══╝  ██╔══██║ ╚═══██╗   ██║     ██╔══╝  ██╗  ██║ ╚═══██╗██║  ██║██║╚████║
+███████╗██║     ██║  ██║██████╔╝   ██║     ███████╗╚█████╔╝██████╔╝╚█████╔╝██║ ╚███║
+╚══════╝╚═╝     ╚═╝  ╚═╝╚═════╝    ╚═╝     ╚══════╝ ╚════╝ ╚═════╝  ╚════╝ ╚═╝  ╚══╝
+Faster than a souped-up muscle car and more reliable than a family you can count on.
+
+Convert csv to json in no time!")]
+struct Args {
+    /// CSV file to operate on. i.e., ./processes/me.csv
+    source_file: String,
+    /// JSON file path to save to. i.e., ./save/me/here.json
+    output_file: String,
+    /// CSV Delimiter 
+    #[arg(short, long,default_value_t = ','.to_string())]
+    delimiter: String,
+}
 
 fn main() {
     let start_time = Instant::now();
+    let args = Args::parse();
 
-    let config = Config::build(env::args()).unwrap_or_else(|err| {
-        eprintln!("Problem parsing arguments: {err}");
-        process::exit(1);
-    });
+    println!("In file {}",args.source_file);
 
-    println!("In file {}",config.file_path);
-    if let Err(e) = twojson::run(config) {
+    if let Err(e) = twojson::run(args.source_file, args.output_file, args.delimiter) {
         eprintln!("Application error; {e}");
         process::exit(1);
     }

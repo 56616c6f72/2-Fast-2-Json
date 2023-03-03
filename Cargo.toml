@@ -9,10 +9,6 @@ edition = "2021"
 csv = "1.1"
 serde_json = "1.0"
 rayon = "1.6.1"
+clap = { version = "4.1.8", features = ["derive"] }
 
-[dev-dependencies]
-criterion = "0.4.0"
 
-[[bench]]
-name = "large-file-bench"
-harness = false
