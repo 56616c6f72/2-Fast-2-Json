@@ -10,7 +10,6 @@ Faster than a souped-up muscle car and more reliable than a family you can count
 Convert csv to json in no time, with minimal ram/memory usage!
 ```
 
-# Introduction by Dominic Torreto
 I asked Dominic Torreto (ChatGPT) to introduce this tool and here is what he has got to say! 
 
 > Welcome to 2 Fast 2 Json, the open-source program that's faster than a souped-up muscle car and more reliable than a family you can count on. Just like my crew and I, this program is all about speed and efficiency. It takes your CSV files and converts them to JSON in no time flat, making it easier for you to process your data and get back to what really matters.
