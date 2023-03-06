@@ -4,13 +4,19 @@ use serde_json::Map;
 use std::fs::OpenOptions;
 
 
-pub fn run(sfile: String,ofile: String,deli: String) -> Result<(), Box<dyn Error>> {
+pub fn run(sfile: String,ofile: String,deli: String,tab_deli: bool) -> Result<(), Box<dyn Error>> {
+    let tmp_delimiter: u8;
+    if tab_deli {
+        tmp_delimiter = b'\t';
+    } else {
+        tmp_delimiter = deli.as_bytes()[0];
+    }
 
     let rdr = ReaderBuilder::new()
-        .flexible(true)
-        .has_headers(false)
-        .delimiter(deli.as_bytes()[0])
-        .from_path(sfile)?;
+    .flexible(true)
+    .has_headers(false)
+    .delimiter(tmp_delimiter)
+    .from_path(sfile)?;
 
     let file = OpenOptions::new()
         .create(true)
@@ -21,7 +27,6 @@ pub fn run(sfile: String,ofile: String,deli: String) -> Result<(), Box<dyn Error
     let mut file_buffer = BufWriter::with_capacity(26214400,file);
   
     let thread_pool = rayon::ThreadPoolBuilder::new()
-        .num_threads(256)
         .build()
         .unwrap();
 
