@@ -1,13 +1,36 @@
-# 2 Fast 2 Json
+```
+██████╗ ███████╗ █████╗  ██████╗████████╗  ██████╗      ██╗ ██████╗ █████╗ ███╗  ██╗
+╚════██╗██╔════╝██╔══██╗██╔════╝╚══██╔══╝  ╚════██╗     ██║██╔════╝██╔══██╗████╗ ██║
+  ███╔═╝█████╗  ███████║╚█████╗    ██║       ███╔═╝     ██║╚█████╗ ██║  ██║██╔██╗██║
+██╔══╝  ██╔══╝  ██╔══██║ ╚═══██╗   ██║     ██╔══╝  ██╗  ██║ ╚═══██╗██║  ██║██║╚████║
+███████╗██║     ██║  ██║██████╔╝   ██║     ███████╗╚█████╔╝██████╔╝╚█████╔╝██║ ╚███║
+╚══════╝╚═╝     ╚═╝  ╚═╝╚═════╝    ╚═╝     ╚══════╝ ╚════╝ ╚═════╝  ╚════╝ ╚═╝  ╚══╝
+Faster than a souped-up muscle car and more reliable than a family you can count on.
 
-Welcome to 2 Fast 2 Json, the open-source program that's faster than a souped-up muscle car and more reliable than a family you can count on.
+Convert csv to json in no time, with minimal ram/memory usage!
+```
 
-Just like my crew and I, this program is all about speed and efficiency. It takes your CSV files and converts them to JSON in no time flat, making it easier for you to process your data and get back to what really matters.
+# Introduction by Dominic Torreto
+I asked Dominic Torreto (ChatGPT) to introduce this tool and here is what he has got to say! 
 
-But we didn't just want to make a program that was fast, we wanted to make one that was easy to use too. That's why we've designed 2 Fast 2 Json to be as intuitive as a high-performance vehicle. With a few simple clicks, you'll be able to convert your CSV files to JSON without any hassle.
+> Welcome to 2 Fast 2 Json, the open-source program that's faster than a souped-up muscle car and more reliable than a family you can count on. Just like my crew and I, this program is all about speed and efficiency. It takes your CSV files and converts them to JSON in no time flat, making it easier for you to process your data and get back to what really matters.
 
-And just like my team and I, we know that you're always looking for ways to improve. That's why we've made 2 Fast 2 Json open-source, so you can make modifications and contribute to the project as you see fit. We believe that the best way to make a program better is to work together, just like we do when we're out on the streets.
+2 Fast 2 Json is a simple program, that takes csv and pumps it out to json. As an incident responder sometimes we maybe provided terabytes of log data to analyse and sometimes this is in csv. Although csv can be ingested to many log platforms in native csv format. This capability may not be available to you as a responder. 
 
-So why the name "2 Fast 2 Json"? Well, it's simple. We're inspired by the movie that made me and my crew famous - "2 Fast 2 Furious". Just like how we push ourselves to go faster and faster, this program is all about speed and performance.
+Although tools exist to convert csv to json across multiple languages. I was not happy that most of the them eats memory like a sunday afternoon snack and crushes if you give it something too large. I also found most of these tools spent abnormal amounts of time considering the simple operation that they needed to perform.  
 
-Thanks for checking out 2 Fast 2 Json. We hope it helps you speed up your workflow and get your projects done in record time. Remember, it's not just about being fast - it's about being reliable, just like my crew and I.
+In my tests I was able to get 2 Fast 2 Json does this conversion 60% faster than other rust programs, while almost 1000% faster than python based ones. This is mostly thanks to the [@alexkornitzer](https://github.com/alexkornitzer)'s advice and support.  The tool also buffer writes to disk ensuring the memory usage stays stable and is at about ~26 Mbs of memory/ram space. 
+
+```
+Usage: twojson [OPTIONS] <SOURCE_FILE> <OUTPUT_FILE>
+
+Arguments:
+  <SOURCE_FILE>  CSV file to operate on. i.e., ./processes/me.csv
+  <OUTPUT_FILE>  JSON file path to save to. i.e., ./save/me/here.json
+
+Options:
+  -d <DELIMITER>      CSV Delimiter [default: ,]
+  -t                  Tab delimited CSV. If provided, overrides the -d, --delimiter flag [default: false]
+  -h, --help          Print help
+  -V, --version       Print version
+```
