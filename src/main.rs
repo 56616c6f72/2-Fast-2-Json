@@ -34,6 +34,12 @@ fn main() {
     let start_time = Instant::now();
     let args = Args::parse();
     let s_datetime = Utc::now().format("%Y-%m-%d %H:%M:%S%.3f %z");
+    
+    if args.delimiter.len() > 1 {
+        eprintln!("{} {}","[-] Delimiter cannot be multiple characters! You provided:".red(),args.delimiter);
+        process::exit(1);
+    }
+    
     eprintln!("{} {}","[+] Start date and time:".green(), s_datetime);
     eprintln!("{} {}","[+] CSV file path:".green(),args.source_file);
     eprintln!("{} {}","[+] JSON file path to be created:".green(),args.output_file);
