@@ -1,7 +1,11 @@
 [package]
 name = "twojson"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
+repository = "https://github.com/56616c6f72/2-Fast-2-Json"
+description = "Convert csv to json in no time, with minimal ram/memory usage."
+readme = "README.md"
+license = "GPL3"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -13,3 +17,9 @@ clap = { version = "4.1.8", features = ["derive"] }
 chrono = "0.4.23"
 colored = "2.0.0"
 
+[dev-dependencies]
+criterion = "0.4.0"
+
+[[bench]]
+name = "benches"
+harness = false

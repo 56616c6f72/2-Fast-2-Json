@@ -5,12 +5,11 @@ use std::fs::OpenOptions;
 
 
 pub fn run(sfile: String,ofile: String,deli: String,tab_deli: bool) -> Result<(), Box<dyn Error>> {
-    let tmp_delimiter: u8;
-    if tab_deli {
-        tmp_delimiter = b'\t';
+    let tmp_delimiter: u8 = if tab_deli {
+        b'\t'
     } else {
-        tmp_delimiter = deli.as_bytes()[0];
-    }
+        deli.as_bytes()[0]
+    };
 
     let rdr = ReaderBuilder::new()
     .flexible(true)
