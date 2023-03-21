@@ -37,7 +37,9 @@ pub fn run(sfile: String,ofile: String,deli: String,tab_deli: bool) -> Result<()
     for line in it {
 
         for (i, value)in line.unwrap().iter().enumerate(){
-                json_map.insert(headers.get(i).unwrap().to_string(), serde_json::from_str(value).unwrap_or_else(|_|value.into()));
+                if !headers.get(i).unwrap().to_string().is_empty(){
+                    json_map.insert(headers.get(i).unwrap().to_string(), serde_json::from_str(value).unwrap_or_else(|_|value.into()));
+                }
             }
         writeln!(file_buffer,"{}", serde_json::to_string(&json_map).unwrap()).expect("Buffer store no good.");
         json_map.clear();
