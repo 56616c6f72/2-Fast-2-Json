@@ -18,7 +18,7 @@ Faster than a souped-up muscle car and more reliable than a family you can count
 
 Convert csv to json in no time, with minimal ram/memory usage!")]
 struct Args {
-    /// CSV file to operate on. i.e., ./processes/me.csv
+    /// CSV file with headers to operate on. i.e., ./processes/me.csv 
     source_file: String,
     /// JSON file path to save to. i.e., ./save/me/here.json
     output_file: String,
